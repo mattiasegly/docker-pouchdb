@@ -20,7 +20,9 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 	tar -xJf node.tar.xz -C /extract-node --strip-components=1 && \
 	tar -xJf node.tar.xz -C /usr/local --strip-components=1 && \
 	node --version && \
-	npm_config_user=root npm install --global --production pouchdb-server
+	npm config set unsafe-perm true && \
+	npm config set user root && \
+	npm install --global --production pouchdb-server
 
 FROM i386/debian:buster
 
