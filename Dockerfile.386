@@ -1,0 +1,36 @@
+FROM i386/debian:buster as builder
+
+# Last working release from unofficial builds. 
+ARG SOURCE=https://unofficial-builds.nodejs.org/download/release
+ARG RELEASE=12.16.3
+ARG ARCH=x86
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+	curl \
+	tar \
+	xz-utils \
+	python3 \
+	build-essential \
+&& rm -rf /var/lib/apt/lists/* \
+&& update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+
+RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz && \
+	mkdir /extract-node && \
+	tar -xJf node.tar.xz -C /extract-node --strip-components=1 && \
+	tar -xJf node.tar.xz -C /usr/local --strip-components=1 && \
+	node --version && \
+	npm_config_user=root npm install --global --production pouchdb-server
+
+FROM i386/debian:buster
+
+COPY --from=builder /extract-node /usr/local
+COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
+
+RUN ln -s ../lib/node_modules/pouchdb-server/bin/pouchdb-server /usr/local/bin/pouchdb-server
+
+VOLUME /data
+WORKDIR /data
+EXPOSE 8080
+
+CMD ["pouchdb-server", "-o", "0.0.0.0", "-p", "8080"]
