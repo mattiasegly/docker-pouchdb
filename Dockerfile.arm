@@ -24,7 +24,7 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 	node --version && \
 	npm config set unsafe-perm true && \
 	npm config set user root && \
-	npm install --global --production pouchdb-server
+	npm install --global --only=production pouchdb-server
 
 RUN [ "cross-build-end" ]
 
