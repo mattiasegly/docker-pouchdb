@@ -1,5 +1,7 @@
 FROM i386/debian:buster as builder
 
+ENV NODE_ENV="production"
+
 # Last working release from unofficial builds. 
 ARG SOURCE=https://unofficial-builds.nodejs.org/download/release
 ARG RELEASE=12.16.3
@@ -25,6 +27,8 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 	npm install --global --only=production pouchdb-server
 
 FROM i386/debian:buster
+
+ENV NODE_ENV="production"
 
 COPY --from=builder /extract-node /usr/local
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/

@@ -1,6 +1,8 @@
 FROM balenalib/rpi-raspbian:buster as builder
 RUN [ "cross-build-start" ]
 
+ENV NODE_ENV="production"
+
 ARG SOURCE=https://unofficial-builds.nodejs.org/download/release
 ARG RELEASE=14.4.0
 ARG ARCH=armv6l
@@ -30,6 +32,8 @@ RUN [ "cross-build-end" ]
 
 FROM balenalib/rpi-raspbian:buster
 RUN [ "cross-build-start" ]
+
+ENV NODE_ENV="production"
 
 COPY --from=builder /extract-node /usr/local
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
