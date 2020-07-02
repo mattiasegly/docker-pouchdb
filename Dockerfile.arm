@@ -34,6 +34,11 @@ RUN [ "cross-build-end" ]
 FROM balenalib/rpi-raspbian:buster
 RUN [ "cross-build-start" ]
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+	libatomic1 \
+&& rm -rf /var/lib/apt/lists/* \
+
 ENV NODE_ENV="production"
 
 COPY --from=builder /extract-node /usr/local
