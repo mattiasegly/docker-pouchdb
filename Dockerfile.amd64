@@ -3,11 +3,11 @@ FROM amd64/debian:buster as builder
 ENV NODE_ENV="production"
 
 ARG SOURCE=https://nodejs.org/download/release
-ARG RELEASE=14.4.0
+ARG RELEASE=14.5.0
 ARG ARCH=x64
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	curl \
 	tar \
 	xz-utils \
@@ -29,9 +29,13 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 FROM amd64/debian:buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	libatomic1 \
-&& rm -rf /var/lib/apt/lists/* \
+	libbrotli1 \
+	libc-ares2 \
+	libicu63 \
+	libuv1 \
+&& rm -rf /var/lib/apt/lists/*
 
 ENV NODE_ENV="production"
 

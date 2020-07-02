@@ -4,11 +4,11 @@ RUN [ "cross-build-start" ]
 ENV NODE_ENV="production"
 
 ARG SOURCE=https://unofficial-builds.nodejs.org/download/release
-ARG RELEASE=14.4.0
+ARG RELEASE=14.5.0
 ARG ARCH=armv6l
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	curl \
 	tar \
 	xz-utils \
@@ -35,9 +35,13 @@ FROM balenalib/rpi-raspbian:buster
 RUN [ "cross-build-start" ]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	libatomic1 \
-&& rm -rf /var/lib/apt/lists/* \
+	libbrotli1 \
+	libc-ares2 \
+	libicu63 \
+	libuv1 \
+&& rm -rf /var/lib/apt/lists/*
 
 ENV NODE_ENV="production"
 

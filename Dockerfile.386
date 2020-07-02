@@ -8,7 +8,7 @@ ARG RELEASE=12.16.3
 ARG ARCH=x86
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	curl \
 	tar \
 	xz-utils \
@@ -30,9 +30,13 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 FROM i386/debian:buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
+	ca-certificates \
 	libatomic1 \
-&& rm -rf /var/lib/apt/lists/* \
+	libbrotli1 \
+	libc-ares2 \
+	libicu63 \
+	libuv1 \
+&& rm -rf /var/lib/apt/lists/*
 
 ENV NODE_ENV="production"
 
