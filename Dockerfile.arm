@@ -43,12 +43,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libuv1 \
 && rm -rf /var/lib/apt/lists/*
 
-ENV NODE_ENV="production"
-
 COPY --from=builder /extract-node /usr/local
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
 
 RUN ln -s ../lib/node_modules/pouchdb-server/bin/pouchdb-server /usr/local/bin/pouchdb-server
+
+ENV NODE_ENV="production"
 
 VOLUME /data
 WORKDIR /data
