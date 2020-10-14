@@ -1,4 +1,4 @@
-FROM balenalib/rpi-raspbian:buster as builder
+FROM mattiasegly/base-image:arm as builder
 RUN [ "cross-build-start" ]
 
 ENV NODE_ENV="production"
@@ -13,6 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	tar \
 	xz-utils \
 	libatomic1 \
+	libbrotli1 \
+	libc-ares2 \
+	libicu63 \
+	libuv1 \
 	python3 \
 	build-essential \
 && rm -rf /var/lib/apt/lists/* \
@@ -31,7 +35,7 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 
 RUN [ "cross-build-end" ]
 
-FROM balenalib/rpi-raspbian:buster
+FROM mattiasegly/base-image:arm
 RUN [ "cross-build-start" ]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

@@ -1,4 +1,4 @@
-FROM amd64/debian:buster as builder
+FROM mattiasegly/base-image:amd64 as builder
 
 ENV NODE_ENV="production"
 
@@ -12,6 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	tar \
 	xz-utils \
 	libatomic1 \
+	libbrotli1 \
+	libc-ares2 \
+	libicu63 \
+	libuv1 \
 	python3 \
 	build-essential \
 && rm -rf /var/lib/apt/lists/* \
@@ -26,7 +30,7 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 	npm config set user root && \
 	npm install --global --only=production pouchdb-server
 
-FROM amd64/debian:buster
+FROM mattiasegly/base-image:amd64
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	ca-certificates \
