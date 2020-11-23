@@ -1,52 +1,18 @@
-FROM mattiasegly/base-image:amd64 as builder
-
-ENV NODE_ENV="production"
-
-ARG SOURCE=https://nodejs.org/download/release
-ARG RELEASE=15.2.1
-ARG ARCH=x64
+FROM mattiasegly/node-image:amd64 as builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-#	ca-certificates \
-#	curl \
-#	tar \
-	xz-utils \
-#	libatomic1 \
-#	libbrotli1 \
-#	libc-ares2 \
-#	libicu63 \
-#	libuv1 \
 	python3 \
 	build-essential \
 && rm -rf /var/lib/apt/lists/* \
 && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz && \
-	mkdir /extract-node && \
-	tar -xJf node.tar.xz -C /extract-node --strip-components=1 && \
-	tar -xJf node.tar.xz -C /usr/local --strip-components=1 && \
-	node --version && \
-	npm config set unsafe-perm true && \
-	npm config set user root && \
-	npm install --global --only=production pouchdb-server
+RUN npm install --global --only=production pouchdb-server
 
-FROM mattiasegly/base-image:amd64
+FROM mattiasegly/node-image:amd64
 
-#RUN apt-get update && apt-get install -y --no-install-recommends \
-#	ca-certificates \
-#	libatomic1 \
-#	libbrotli1 \
-#	libc-ares2 \
-#	libicu63 \
-#	libuv1 \
-#&& rm -rf /var/lib/apt/lists/*
-
-COPY --from=builder /extract-node /usr/local
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
 
 RUN ln -s ../lib/node_modules/pouchdb-server/bin/pouchdb-server /usr/local/bin/pouchdb-server
-
-ENV NODE_ENV="production"
 
 VOLUME /data
 WORKDIR /data
