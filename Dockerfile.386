@@ -2,21 +2,20 @@ FROM mattiasegly/base-image:386 as builder
 
 ENV NODE_ENV="production"
 
-# Last working release from unofficial builds. 
 ARG SOURCE=https://unofficial-builds.nodejs.org/download/release
-ARG RELEASE=12.16.3
+ARG RELEASE=15.2.1
 ARG ARCH=x86
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	ca-certificates \
-	curl \
-	tar \
+#	ca-certificates \
+#	curl \
+#	tar \
 	xz-utils \
-	libatomic1 \
-	libbrotli1 \
-	libc-ares2 \
-	libicu63 \
-	libuv1 \
+#	libatomic1 \
+#	libbrotli1 \
+#	libc-ares2 \
+#	libicu63 \
+#	libuv1 \
 	python3 \
 	build-essential \
 && rm -rf /var/lib/apt/lists/* \
@@ -33,14 +32,14 @@ RUN curl -L $SOURCE/v$RELEASE/node-v$RELEASE-linux-$ARCH.tar.xz -o node.tar.xz &
 
 FROM mattiasegly/base-image:386
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-	ca-certificates \
-	libatomic1 \
-	libbrotli1 \
-	libc-ares2 \
-	libicu63 \
-	libuv1 \
-&& rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#	ca-certificates \
+#	libatomic1 \
+#	libbrotli1 \
+#	libc-ares2 \
+#	libicu63 \
+#	libuv1 \
+#&& rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /extract-node /usr/local
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
