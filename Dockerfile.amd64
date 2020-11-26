@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && rm -rf /var/lib/apt/lists/* \
 && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "--login", "-c"]
 RUN npm install --global --only=production pouchdb-server
 
 FROM mattiasegly/node-image:bullseye-amd64
