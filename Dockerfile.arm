@@ -1,4 +1,4 @@
-FROM mattiasegly/node-image:arm as builder
+FROM mattiasegly/node-image:buster-arm AS builder
 RUN [ "cross-build-start" ]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -11,7 +11,7 @@ RUN npm install --global --only=production pouchdb-server
 
 RUN [ "cross-build-end" ]
 
-FROM mattiasegly/node-image:arm
+FROM mattiasegly/node-image:buster-arm
 RUN [ "cross-build-start" ]
 
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
