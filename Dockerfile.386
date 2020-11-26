@@ -1,4 +1,4 @@
-FROM mattiasegly/node-image:buster-386 AS builder
+FROM mattiasegly/node-image:bullseye-386 AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	python3 \
@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN npm install --global --only=production pouchdb-server
 
-FROM mattiasegly/node-image:buster-386
+FROM mattiasegly/node-image:bullseye-386
 
 COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
 
