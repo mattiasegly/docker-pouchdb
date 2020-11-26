@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && rm -rf /var/lib/apt/lists/* \
 && update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
-RUN nvm use node && \
-	npm install --global --only=production pouchdb-server
+SHELL ["/bin/bash", "-c"]
+RUN npm install --global --only=production pouchdb-server
 
 RUN [ "cross-build-end" ]
 
