@@ -15,7 +15,7 @@ RUN [ "cross-build-end" ]
 FROM mattiasegly/node-image:bullseye-arm
 RUN [ "cross-build-start" ]
 
-COPY --from=builder /root/.nvm/ /root/.nvm/
+COPY --from=builder /usr/local/nvm/ /usr/local/nvm/
 
 RUN [ "cross-build-end" ]
 
