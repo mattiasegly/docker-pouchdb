@@ -11,7 +11,9 @@ RUN npm install --global --only=production pouchdb-server
 
 FROM mattiasegly/node-image:bullseye-amd64
 
-COPY --from=builder /usr/local/nvm/ /usr/local/nvm/
+COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
+
+RUN ln -s ../lib/node_modules/pouchdb-server/bin/pouchdb-server /usr/local/bin/pouchdb-server
 
 VOLUME /data
 WORKDIR /data

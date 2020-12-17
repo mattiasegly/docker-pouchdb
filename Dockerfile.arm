@@ -15,7 +15,9 @@ RUN [ "cross-build-end" ]
 FROM mattiasegly/node-image:bullseye-arm
 RUN [ "cross-build-start" ]
 
-COPY --from=builder /usr/local/nvm/ /usr/local/nvm/
+COPY --from=builder /usr/local/lib/node_modules /usr/local/lib/node_modules/
+
+RUN ln -s ../lib/node_modules/pouchdb-server/bin/pouchdb-server /usr/local/bin/pouchdb-server
 
 RUN [ "cross-build-end" ]
 
